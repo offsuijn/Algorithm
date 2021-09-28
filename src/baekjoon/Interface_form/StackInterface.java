@@ -49,10 +49,15 @@ public interface StackInterface<E> {
     int size();
 
     /**
-     * 스택에 있는 모든 요소 삭제
-     */
+     * 스택에 있는 모든 요소를 삭제한다.
+    */
     void clear();
 
+    /**
+     * 스택이 비어있는지 반환한다.
+     *
+     * @return 스택에 요소가 없을 경우 {@code true}, 있을 경우 {@code false}를 반환한다.
+     */
     boolean empty();
 
 }
