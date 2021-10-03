@@ -3,6 +3,7 @@ package baekjoon.baekjoon_1874;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Stack;
 
 public class bj_1874 {
 
@@ -10,14 +11,32 @@ public class bj_1874 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
+        Stack<Integer> stack = new Stack<>();
         int N = Integer.parseInt(br.readLine());
-        int[] arr = new int[N];
 
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
+        int start = 0; // stack에 가장 마지막으로 push한 값
+
+        while (N-- > 0) {
+            int seq = Integer.parseInt(br.readLine());
+
+            // top의 숫자가 수열보다 작으면 -> 수열까지 push한 뒤 pop
+            if (seq > start) {
+                for (int i = start + 1; i <= seq; i++) {
+                    stack.push(i);
+                    sb.append('+').append('\n');
+                }
+                start = seq;
+            }
+            // top의 숫자가 수열보다 크면 -> 'NO'
+            else if (seq < stack.peek()) {
+                System.out.println("NO");
+                System.exit(0);
+            }
+
+            stack.pop();
+            sb.append('-').append('\n');
         }
 
-        // 2 -> 1 은 꺼낼 수 있어도, 1 -> 2 로는 꺼낼 수 없다. 왜냐하면 1을 꺼내려면 2를 먼저 버려야하기 때문임
-        // arr은 내림차순으로 되어있어야 수열을 만들 수 있음
+        System.out.println(sb);
     }
 }
