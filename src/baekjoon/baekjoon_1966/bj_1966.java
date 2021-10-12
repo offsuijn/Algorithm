@@ -25,7 +25,7 @@ public class bj_1966 {
             Queue<Integer> queue = new LinkedList<>();
 
             st = new StringTokenizer(br.readLine(), " ");
-            while (st.hasMoreTokens()) {
+            while (N-- > 0) {
                 queue.offer(Integer.parseInt(st.nextToken()));
             }
 
