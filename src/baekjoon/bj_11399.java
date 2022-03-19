@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class bj_11399 {
@@ -20,17 +21,20 @@ public class bj_11399 {
             time[i] = Integer.parseInt(st.nextToken());
         }
 
-        // Greedy : 돈을 인출하는 데 걸리는 시간이 작은 순서대로!
+        int result = solution(time, N);
+        
+        System.out.println(result);
+    }
+
+    public static int solution(int[] time, int n) {
+        int answer = 0;
 
         Arrays.sort(time);
 
-        int prev = 0;
-        int result = 0;
-        for (int t : time) {
-            prev += t;
-            result += prev;
+        for (int i = 0; i < n; i++) {
+            answer += time[i] * (n - i);
         }
 
-        System.out.println(result);
+        return answer;
     }
 }
