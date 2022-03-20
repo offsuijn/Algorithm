@@ -3,60 +3,45 @@ package baekjoon.baekjoon_9012;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Stack;
 
 public class bj_9012 {
 
-    public static int size;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+        int T = Integer.parseInt(br.readLine());
+        String inputs[] = new String[T];
+        for (int i = 0; i < T; i++) inputs[i] = br.readLine();
+        String answer[] = solution(T, inputs);
 
-        int N = Integer.parseInt(br.readLine());
+        for (int i = 0; i < T; i++) System.out.println(answer[i]);
+    }
 
-        while(N-- > 0) {
-            size = 0;
-            boolean flag = true; // 짝이 맞으면 true
-            String[] arr = br.readLine().split("");
+        public static String[] solution ( int T, String[] inputs){
+            String answer[] = new String[T];
 
-            for(String s : arr) {
-                // "("가 들어올 경우
-                if (s.equals("(")) {
-                    push();
-                    continue;
-                }
-                else { // ")"가 들어올 경우
-                    if (size == 0) { // ")"은 있는데 "("가 없는 경우 -> 짝이 맞지 않음
-                        flag = false;
-                        break;
+            Stack<Character> stack = new Stack<Character>();
+            boolean flag;
+
+            for (int t = 0; t < T; t++) {
+                stack.clear();
+                flag = true;
+                for (int i = 0; i < inputs[t].length(); i++) {
+                    if (inputs[t].charAt(i) == '(') stack.add('(');
+                    else {
+                        if (!stack.empty()) stack.pop();
+                        else {
+                            flag = false;
+                            break;
+                        }
                     }
-                    pop();
                 }
+
+                if (flag && stack.empty()) answer[t] = "YES";
+                else answer[t] = "NO";
             }
 
-            if (flag) {
-                if (size != 0) { // "("이 남아있는 경우 -> 짝이 맞지 않음
-                    flag  = false;
-                }
-            }
+            return answer;
 
-            if (flag) {
-                sb.append("YES").append('\n');
-            }
-            else {
-                sb.append("NO").append('\n');
-            }
         }
-
-        System.out.println(sb);
-
-    }
-
-    public static void push() {
-        size++;
-    }
-
-    public static void pop() {
-        size--;
-    }
 }
