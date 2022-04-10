@@ -1,52 +1,60 @@
 package baekjoon.baekjoon_9663;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
-public class bj_9663 {
-
-    public static int count, N;
-    public static int[] arr;
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        count = 0;
-        N = Integer.parseInt(st.nextToken());
-        arr = new int[N]; // index가 column, value가 row
-
-        dfs(0);
-        System.out.println(count);
-    }
-
-    // 퀸을 둘 수 있는 경우의 수를 구하는 함수
-    private static void dfs(int depth) {
-        if (depth == N) {
-            count++;
-            return;
-        }
-        for (int i = 0; i < N; i++) {
-            if (possible(depth, i)) {
-                arr[depth] = i;
-                dfs(depth + 1);
-            }
-        }
-    }
-
-    // 그 자리에 퀸을 두어도 되는지 알려주는 함수
-    private static boolean possible(int depth, int i) {
-        for (int j = 0; j < depth; j++) { // 다른 행에 있어야한다.
-            if (arr[j] == i) {
-                return false;
-            }
-
-            if (Math.abs(j - depth) == Math.abs(arr[j] - i)) { // 서로 대각선에 위치하지 않아야한다.
-                return false;
-            }
-        }
-        return true;
-    }
+import java.io.IOException;
+ 
+public class Main {
+ 
+	public static int[] arr;
+	public static int N;
+	public static int count = 0;
+ 
+	public static void main(String[] args) throws IOException {
+ 
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		N = Integer.parseInt(br.readLine());
+		arr = new int[N];
+ 
+		nQueen(0);
+		System.out.println(count);
+ 
+	}
+ 
+	public static void nQueen(int depth) {
+		// 모든 원소를 다 채운 상태면 count 증가 및 return 
+		if (depth == N) {
+			count++;
+			return;
+		}
+ 
+		for (int i = 0; i < N; i++) {
+			arr[depth] = i;
+			// 놓을 수 있는 위치일 경우 재귀호출
+			if (Possibility(depth)) {
+				nQueen(depth + 1);
+			}
+		}
+ 
+	}
+ 
+	public static boolean Possibility(int col) {
+ 
+		for (int i = 0; i < col; i++) {
+			// 해당 열의 행과 i열의 행이 일치할경우 (같은 행에 존재할 경우) 
+			if (arr[col] == arr[i]) {
+				return false;
+			} 
+			
+			/*
+			 * 대각선상에 놓여있는 경우
+			 * (열의 차와 행의 차가 같을 경우가 대각선에 놓여있는 경우다)
+			 */
+			else if (Math.abs(col - i) == Math.abs(arr[col] - arr[i])) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 }
