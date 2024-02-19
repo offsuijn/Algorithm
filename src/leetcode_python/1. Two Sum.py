@@ -3,6 +3,7 @@
 
 class Solution(object):
     def twoSum(self, nums, target):
+        # Use Array
         result = []
         for idx, i in enumerate(nums):
             if (target - i) in nums:
@@ -12,3 +13,12 @@ class Solution(object):
                     break
                     
         return result
+
+        # Use HashMap
+        hashmap = {}
+        
+        for i, n in enumerate(nums):
+            if target - n in hashmap:
+                return hashmap[target-n], i
+            
+            hashmap[n] = i
