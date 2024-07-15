@@ -1,25 +1,18 @@
 # https://www.acmicpc.net/problem/7579
 
-import sys
+n, m = map(int, input().split()) # n = 활성화된 앱의 개수, m = 필요한 바이트
+memory = list(map(int, input().split())) # 앱이 사용 중인 메모리
+costs = list(map(int, input().split())) # 앱을 비활성화할 때의 비용
 
-n, m = map(int, sys.stdin.readline().split())
-memory = [0] + list(map(int, sys.stdin.readline().split()))
-cost = [0] + list(map(int, sys.stdin.readline().split()))
-dp = [[0] * (sum(cost) + 1) for _ in range(n+1)]
-answer = int(1e9)
+dp = [0] * (sum(costs)+1)
 
-for i in range(1, n+1):
-    for j in range(sum(cost)+1):
-        cur_memory = memory[i]
-        cur_cost = cost[i]
+answer = sum(costs)
+for i in range(n):
+    for j in range(sum(costs), -1, -1): # 역순으로 순회, 0도 cost 가능!!
+        if j >= costs[i]:
+            dp[j] = max(dp[j], dp[j-costs[i]]+memory[i])
 
-        if (j < cost[i]):
-            dp[i][j] = dp[i-1][j]
-
-        else:
-            dp[i][j] = max(dp[i-1][j-cur_cost] + cur_memory, dp[i-1][j])
-
-        if (dp[i][j] >= m):
+        if dp[j] >= m:
             answer = min(answer, j)
-
+            
 print(answer)
