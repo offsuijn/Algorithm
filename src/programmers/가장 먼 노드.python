@@ -1,0 +1,33 @@
+from collections import defaultdict
+
+def bfs(graph, start, distances):
+    queue = [start]
+    visited = set([start])
+
+    while queue:
+        current = queue.pop(0)
+      
+        for neighbor in graph[current]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+                distances[neighbor] = distances[current] + 1
+
+def solution(n, edge):
+    graph = defaultdict(list)
+
+    for e in edge:
+        graph[e[0]].append(e[1])
+        graph[e[1]].append(e[0])
+
+    distances = [0]*(n+1)
+    bfs(graph, 1, distances)
+
+    max_distance = max(distances)
+    answer = 0
+
+    for distance in distances:
+        if distance == max_distance:
+            answer += 1
+
+    return answer
