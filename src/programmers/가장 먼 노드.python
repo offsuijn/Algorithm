@@ -1,3 +1,5 @@
+# https://school.programmers.co.kr/learn/courses/30/lessons/49189
+
 from collections import defaultdict
 
 def bfs(graph, start, distances):
